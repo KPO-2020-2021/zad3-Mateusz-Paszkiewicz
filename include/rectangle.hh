@@ -22,13 +22,15 @@ class Rectangle {
 
     Rectangle(double [4][2]);
 
-    Rectangle VectorTrans(Vector Vect);
+    Rectangle operator+ (Vector const &Vect);
 
     Rectangle AngleTrans(double Angle);
 
-    const double &operator () (unsigned int point, unsigned int axis) const;
+    double &operator () (unsigned int point, unsigned int axis);
 
 };
+
+std::istream &operator>>(std::istream &in, Rectangle &rect);
 
 std::ostream &operator<<(std::ostream &out, Rectangle const &rect);
 
@@ -56,7 +58,7 @@ Rectangle::Rectangle(double tmp[4][2]) {
   }
 }
 
-const double &Rectangle::operator () (unsigned int point, unsigned int axis) const{
+double &Rectangle::operator () (unsigned int point, unsigned int axis){
 
     if (point > 4) {
         std::cout << "Error: Wrong parameter. Only 4 points in a rectangle";
@@ -71,13 +73,35 @@ const double &Rectangle::operator () (unsigned int point, unsigned int axis) con
     return rect[point][axis];
 }
 
-std::ostream &operator<<(std::ostream &out, Rectangle const &Rectangle)
+std::istream &operator>>(std::istream &in, Rectangle &rect) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            in >> rect(i, j);
+        }
+    }
+    return in;
+}
+
+std::ostream &operator<<(std::ostream &out, Rectangle &Rectangle)
 {
       for (int i = 0; i < 4; ++i) {
           for (int j = 0; j < 2; ++j) {
-              out << Rectangle(i, j); //warto ustalic szerokosc wyswietlania dokladnosci liczb
+              out << Rectangle(i, j) << "   "; //warto ustalic szerokosc wyswietlania dokladnosci liczb
           }
           std::cout << std::endl;
       }
       return out;
+}
+
+
+
+
+Rectangle Rectangle::operator+ (Vector const &Vect)
+{
+  for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 2; ++j) {
+        rect[i][j]=rect[i][j]+Vect[j];
+    }
+  }
+  return (*this);
 }

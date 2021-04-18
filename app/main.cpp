@@ -26,8 +26,33 @@
  * EDIT: dodane kreowanie wektorow i macierzy plus obsluga lacza do gnuplota
  */
 
-#define DL_KROTKI_BOK  100
-#define DL_DLUGI_BOK   150
+
+bool CoordsReadFromFile(const char *sNazwaPliku, Rectangle &Rect)
+{
+    std::ifstream  fin;
+
+  fin.open(sNazwaPliku);
+  if (!fin.is_open())  {
+    std::cerr << ":(  Operacja otwarcia do zapisu \"" << sNazwaPliku << "\"" << std::endl
+   << ":(  nie powiodla sie." << std::endl;
+    return false;
+    }
+
+  fin >> Rect(0,0);
+  fin >> Rect(0,1);
+  fin >> Rect(1,0);
+  fin >> Rect(1,1);
+  fin >> Rect(2,0);
+  fin >> Rect(2,1);
+  fin >> Rect(3,0);
+  fin >> Rect(3,1);
+  fin >> Rect(0,0);
+  fin >> Rect(0,1);
+
+  return true;
+}
+
+
 
 /*!
  * Przyklad zapisu wspolrzednych zbioru punktow do strumienia wyjściowego.
@@ -43,8 +68,7 @@
  * \retval true - gdy operacja zapisu powiodła się,
  * \retval false - w przypadku przeciwnym.
  */
-void PrzykladZapisuWspolrzednychDoStrumienia( std::ostream&     StrmWy,
-                                              Rectangle &Rect)
+void CoordsToStream( std::ostream& StrmWy, Rectangle &Rect)
 {
    //---------------------------------------------------------------
    // To tylko przyklad !!!
@@ -81,9 +105,7 @@ void PrzykladZapisuWspolrzednychDoStrumienia( std::ostream&     StrmWy,
  * \retval true - gdy operacja zapisu powiodła się,
  * \retval false - w przypadku przeciwnym.
  */
-bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku,
-                                         Rectangle &Rect)
-
+bool PrzykladZapisuWspolrzednychDoPliku( const char *sNazwaPliku,  Rectangle &Rect)
 {
   std::ofstream  StrmPlikowy;
 
@@ -94,7 +116,7 @@ bool PrzykladZapisuWspolrzednychDoPliku( const char  *sNazwaPliku,
     return false;
   }
 
-  PrzykladZapisuWspolrzednychDoStrumienia(StrmPlikowy, Rect);
+  CoordsToStream(StrmPlikowy, Rect);
 
   StrmPlikowy.close();
   return !StrmPlikowy.fail();
@@ -114,8 +136,6 @@ int main() {
   // std::system("cat ../LICENSE");
   // do zadania Rotacja 2D
 
-
-    Rectangle rect=Rectangle();
 
 
     PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
@@ -140,7 +160,9 @@ int main() {
    //
   Lacze.ZmienTrybRys(PzG::TR_2D);
 
-  PrzykladZapisuWspolrzednychDoStrumienia(std::cout,rect);
+  Rectangle rect=Rectangle();
+  CoordsReadFromFile("../datasets/prostokat.dat", rect);
+  CoordsToStream(std::cout,rect);
   if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",rect)) return 1;
   Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
@@ -148,7 +170,7 @@ int main() {
    //----------------------------------------------------------
    // Ponownie wypisuje wspolrzedne i rysuje prostokąt w innym miejscu.
    //
-  PrzykladZapisuWspolrzednychDoStrumienia(std::cout,rect);
+  CoordsToStream(std::cout,rect);
   if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",rect)) return 1;
   Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
