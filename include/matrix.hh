@@ -20,7 +20,7 @@ public:
     Matrix operator + (Matrix tmp);
 
     double  &operator () (unsigned int row, unsigned int column);
-    
+
     const double &operator () (unsigned int row, unsigned int column) const;
 };
 
@@ -91,7 +91,7 @@ Vector Matrix::operator * (Vector tmp) {
 double &Matrix::operator()(unsigned int row, unsigned int column) {
 
     if (row >= SIZE) {
-        std::cout << "Error: Macierz jest poza zasiegiem"; 
+        std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
 
@@ -176,4 +176,3 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
     }
     return out;
 }
-

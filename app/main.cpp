@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <limits>
 
 #include "exampleConfig.h"
 #include "example.h"
@@ -105,7 +106,7 @@ void CoordsToStream( std::ostream& StrmWy, Rectangle &Rect)
  * \retval true - gdy operacja zapisu powiodła się,
  * \retval false - w przypadku przeciwnym.
  */
-bool PrzykladZapisuWspolrzednychDoPliku( const char *sNazwaPliku,  Rectangle &Rect)
+bool SaveCoordsToFile( const char *sNazwaPliku,  Rectangle &Rect)
 {
   std::ofstream  StrmPlikowy;
 
@@ -160,25 +161,114 @@ int main() {
    //
   Lacze.ZmienTrybRys(PzG::TR_2D);
 
-  Rectangle rect=Rectangle();
+
+  Rectangle rect=Rectangle(); //constructor of class Rectangle
   CoordsReadFromFile("../datasets/prostokat.dat", rect);
+  char option;
+
+  std::cout<<"2D GNUPlot rectangle Translation program."<<std::endl;
+  std::cout<<"Press h for help."<<std::endl;
+
+
+  Menu:
+
+  std::cout<<"Please select option:  ";
+
+  std::cin>>option;
+  std::cout<<std::endl;
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+
+  switch (option) {
+    case 'h':
+    {
+      std::cout<<"v - vector translation "<<std::endl;
+      std::cout<<"a - isometric translation "<<std::endl;
+      std::cout<<"d - display rectangle in GNUPlot "<<std::endl;
+      std::cout<<"s - display points of the rectangle "<<std::endl;
+      std::cout<<"q - exit "<<std::endl;
+
+      goto Menu;
+    }
+    case 'v':
+    {
+      double input[2];
+
+      std::cout<<"please pass the vector values [x,y]:"<<std::endl;
+
+      std::cin>>input[0]; std::cin>>input[1];
+      Vector vector= Vector(input);
+
+      rect=rect+vector;
+
+      if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
+        std::cerr<<"Err: Cannot save coords to file";
+      else
+        std::cout<<"Done";
+
+      goto Menu;
+    }
+
+    case 'a':
+    {
+      double angle;
+
+      std::cout<<"Please pass the value of angle:";
+      std::cin>>angle;
+
+      rect.AngleTrans(angle*M_PI/180);
+
+      std::cout<<"done"<<std::endl<<std::endl;
+
+      if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
+        std::cerr<<"Err: Cannot save coords to file";
+      else
+        std::cout<<"Done";
+
+      goto Menu;
+    }
+
+    case 'd':
+    {
+      Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
+      goto Menu;
+    }
+    case 's':
+    {
+      CoordsToStream(std::cout, rect);
+
+      goto Menu;
+    }
+    case 'q':
+    {
+      exit(0);
+    }
+    default:
+    {
+      std::cout<<"Option selected not recognized, please try again.";
+      goto Menu;
+    }
+  }
+
+
+
+
+
+/*
+
+
   CoordsToStream(std::cout,rect);
-  if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",rect)) return 1;
-  Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
+  if (!SaveCoordsToFile("../datasets/prostokat.dat",rect)) return 1;
+
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
    //----------------------------------------------------------
    // Ponownie wypisuje wspolrzedne i rysuje prostokąt w innym miejscu.
    //
   CoordsToStream(std::cout,rect);
-  if (!PrzykladZapisuWspolrzednychDoPliku("../datasets/prostokat.dat",rect)) return 1;
+  if (!SaveCoordsToFile("../datasets/prostokat.dat",rect)) return 1;
   Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
   std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
   std::cin.ignore(100000,'\n');
+*/
 
-  // Z bazy projektu-wydmuszki Boiler Plate C++:
-  // Bring in the dummy class from the example source,
-  // just to show that it is accessible from main.cpp.
-  Dummy d = Dummy();
-  return d.doSomething() ? 0 : -1;
 }

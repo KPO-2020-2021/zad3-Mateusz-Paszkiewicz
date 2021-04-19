@@ -1,17 +1,18 @@
 #pragma once
 
 #include "matrix.hh"
+#include <cmath>
 
 //    BUDOWA PROSTKATA :
 //
 //    rect[punkt][1]=x_punktu
 //    rect[punkt][2]=y_punktu
 //
-//  1  *------------*  2
+//  0  *------------*  1
 //     |            |
 //     |            |
 //     |            |
-//  3  *------------*  4
+//  2  *------------*  3
 
 class Rectangle {
   private:
@@ -22,11 +23,13 @@ class Rectangle {
 
     Rectangle(double [4][2]);
 
-    Rectangle operator+ (Vector const &Vect);
+    Rectangle operator+ (Vector const &);
 
     Rectangle AngleTrans(double Angle);
 
     double &operator () (unsigned int point, unsigned int axis);
+
+    Rectangle operator* (Vector const &);
 
 };
 
@@ -96,6 +99,7 @@ std::ostream &operator<<(std::ostream &out, Rectangle &Rectangle)
 
 
 
+
 Rectangle Rectangle::operator+ (Vector const &Vect)
 {
   for (int i = 0; i < 4; ++i) {
@@ -104,4 +108,33 @@ Rectangle Rectangle::operator+ (Vector const &Vect)
     }
   }
   return (*this);
+}
+
+
+Rectangle Rectangle::AngleTrans(double Angle)
+{
+  double Punkt_0[SIZE]={rect[0][0], rect[0][1]};
+  Vector p_0=Vector(Punkt_0);
+  double Punkt_1[SIZE]={rect[1][0], rect[1][1]};
+  Vector p_1=Vector(Punkt_1);
+  double Punkt_2[SIZE]={rect[2][0], rect[2][1]};
+  Vector p_2=Vector(Punkt_2);
+  double Punkt_3[SIZE]={rect[3][0], rect[3][1]};
+  Vector p_3=Vector(Punkt_3);
+
+  double Translation[][2]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
+  Matrix Trans=Matrix(Translation);
+
+  p_0=Trans*p_0;
+  p_1=Trans*p_1;
+  p_2=Trans*p_2;
+  p_3=Trans*p_3;
+
+  rect[0][0]=p_0[0]; rect[0][1]=p_0[1];
+  rect[1][0]=p_1[0]; rect[1][1]=p_1[1];
+  rect[2][0]=p_2[0]; rect[2][1]=p_2[1];
+  rect[3][0]=p_3[0]; rect[3][1]=p_3[1];
+
+  return (*this);
+
 }
