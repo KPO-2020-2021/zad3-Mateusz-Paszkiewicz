@@ -203,7 +203,10 @@ int main() {
       if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
         std::cerr<<"Err: Cannot save coords to file";
       else
-        std::cout<<"Done";
+      {
+        std::cout<<std::endl;
+        std::cout<<"Done!"<<std::endl<<std::endl;
+      }
 
       goto Menu;
     }
@@ -217,23 +220,31 @@ int main() {
 
       rect.AngleTrans(angle*M_PI/180);
 
-      std::cout<<"done"<<std::endl<<std::endl;
+      std::cout<<std::endl;
+      std::cout<<"Done!"<<std::endl<<std::endl;
 
       if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
         std::cerr<<"Err: Cannot save coords to file";
       else
-        std::cout<<"Done";
+      {
+        std::cout<<std::endl;
+        std::cout<<"Done!"<<std::endl<<std::endl;
+      }
 
       goto Menu;
     }
 
     case 'd':
     {
+      std::cout<<std::endl;
+      std::cout<<"Displaying..."<<std::endl<<std::endl;
       Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
       goto Menu;
     }
     case 's':
     {
+      std::cout<<std::endl;
+      std::cout<<"Displaying coords..."<<std::endl<<std::endl;
       CoordsToStream(std::cout, rect);
 
       goto Menu;
@@ -248,27 +259,5 @@ int main() {
       goto Menu;
     }
   }
-
-
-
-
-
-/*
-
-
-  CoordsToStream(std::cout,rect);
-  if (!SaveCoordsToFile("../datasets/prostokat.dat",rect)) return 1;
-
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-   //----------------------------------------------------------
-   // Ponownie wypisuje wspolrzedne i rysuje prostokąt w innym miejscu.
-   //
-  CoordsToStream(std::cout,rect);
-  if (!SaveCoordsToFile("../datasets/prostokat.dat",rect)) return 1;
-  Lacze.Rysuj(); // <- Tutaj gnuplot rysuje, to co zapisaliśmy do pliku
-  std::cout << "Naciśnij ENTER, aby kontynuowac" << std::endl;
-  std::cin.ignore(100000,'\n');
-*/
 
 }

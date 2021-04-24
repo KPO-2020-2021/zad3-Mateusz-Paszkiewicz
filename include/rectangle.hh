@@ -12,12 +12,12 @@
 //     |            |
 //     |            |
 //     |            |
-//  2  *------------*  3
+//  3  *------------*  2
 
 class Rectangle {
-  private:
+
+public:
     double rect[4][2];
-  public:
 
     Rectangle();
 

@@ -162,7 +162,7 @@ const double &Vector::operator [] (int index) const {
  */
 double &Vector::operator[](int index) {
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
-} 
+}
 
 
 /******************************************************************************
