@@ -7,10 +7,9 @@
 
 class Matrix {
 
-private:
+public:
     double value[SIZE][SIZE];               // Wartosci macierzy
 
-public:
     Matrix(double [SIZE][SIZE]);            // Konstruktor klasy
 
     Matrix();                               // Konstruktor klasy
@@ -27,6 +26,8 @@ public:
 std::istream &operator>>(std::istream &in, Matrix &mat);
 
 std::ostream &operator<<(std::ostream &out, Matrix const &mat);
+
+double *GaussElimination(Matrix &);
 
 /******************************************************************************
  |  Konstruktor klasy Matrix.                                                 |
@@ -175,4 +176,30 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
         std::cout << std::endl;
     }
     return out;
+}
+
+double *GaussElimination(Matrix &Mat)
+{
+   int i,j,k,
+   n=SIZE-2; // declare variables and matrixes as input
+   double b;
+   double *solution[SIZE];
+
+   //to find the elements of diagonal matrix
+   for(j=0; j<n; j++) {
+      for(i=0; i<n; i++) {
+         if(i!=j) {
+            b=Mat(i, j)/Mat(j, j);
+            for(k=0; k<=n; k++) {
+               Mat(i, k)=Mat(i, k)-b*Mat(j, k);
+            }
+         }
+      }
+   }
+   for(i=0; i<=n; i++)
+   {
+      *solution[i]=Mat(i, n+1)/Mat(i, i);
+      std::cout<<"x"<<i << "="<<(&solution)[i]<<" ";
+   }
+   return (*solution);
 }

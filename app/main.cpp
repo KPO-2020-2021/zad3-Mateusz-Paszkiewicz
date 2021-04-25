@@ -14,7 +14,6 @@
 #include <limits>
 
 #include "exampleConfig.h"
-#include "example.h"
 #include "vector.hh"
 #include "matrix.hh"
 #include "../include/lacze_do_gnuplota.hh"
@@ -219,9 +218,6 @@ int main() {
       std::cin>>angle;
 
       rect.AngleTrans(angle*M_PI/180);
-
-      std::cout<<std::endl;
-      std::cout<<"Done!"<<std::endl<<std::endl;
 
       if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
         std::cerr<<"Err: Cannot save coords to file";

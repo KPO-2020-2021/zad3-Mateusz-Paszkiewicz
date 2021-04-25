@@ -122,7 +122,7 @@ Rectangle Rectangle::AngleTrans(double Angle)
   double Punkt_3[SIZE]={rect[3][0], rect[3][1]};
   Vector p_3=Vector(Punkt_3);
 
-  double Translation[][2]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
+  double Translation[][SIZE]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
   Matrix Trans=Matrix(Translation);
 
   p_0=Trans*p_0;

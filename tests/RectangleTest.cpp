@@ -1,5 +1,3 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "../tests/doctest/doctest.h"
 #include "../include/matrix.hh"
 #include "../include/rectangle.hh"
 
@@ -7,7 +5,7 @@
 // More tests can be added here, or in a new tests/*.cpp file.
 
 
-TEST_CASE("Rectangle Class parametrical Contructor Test")
+TEST_CASE("Rectangle Class parametric Contructor Test")
 {
   double sample[4][2]={{-10,10},{10,10},{10,-10},{-10,-10}};
   Rectangle test=Rectangle(sample);
@@ -22,7 +20,7 @@ TEST_CASE("Rectangle Class parametrical Contructor Test")
   CHECK(test.rect[3][1] == -10);
 }
 
-TEST_CASE("Rectangle Class non-parametrical Contructor Test")
+TEST_CASE("Rectangle Class non-parametric Contructor Test")
 {
   Rectangle test=Rectangle();
 
@@ -78,9 +76,6 @@ TEST_CASE("Angle Translation for Rectangle class Test")
 
   test.AngleTrans(Angle*M_PI/180);
 
-  std::cout<<test.rect[0][0]<<std::endl;
-  std::cout<<test.rect[0][1]<<std::endl;
-
   CHECK(abs(test.rect[0][0]- 0) < 0.00001 );
   CHECK(abs(test.rect[0][1]+ 14.14213562373) < 0.00001 );
   CHECK(abs(test.rect[1][0]+ 14.14213562373) < 0.00001 );
@@ -91,7 +86,7 @@ TEST_CASE("Angle Translation for Rectangle class Test")
   CHECK(abs(test.rect[3][1]- 0) < 0.00001 );
 }
 
-TEST_CASE("Angle Translation for Rectangle class Test")
+TEST_CASE("<< operator for Rectangle class Test")
 {
   std::string expected = "-10 10 10 10 10 -10 -10 -10 -10 10";
   std::stringstream buffer, tmp;

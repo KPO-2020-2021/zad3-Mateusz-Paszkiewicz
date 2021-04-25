@@ -5,11 +5,9 @@
 
 class Vector {
 
-private:
+public:
 
     double size[SIZE];     //Tablica wektora
-
-public:
 
     Vector();
 
@@ -26,6 +24,8 @@ public:
     const double &operator [] (int index) const;
 
     double &operator [] (int index);
+
+    bool operator == (const Vector&) const;
 
 };
 
@@ -163,6 +163,20 @@ const double &Vector::operator [] (int index) const {
 double &Vector::operator[](int index) {
     return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
 }
+
+
+
+bool Vector::operator == (const Vector &v) const
+  {
+    bool equal=true;
+    for(int i=0; i<SIZE; ++i)
+    {
+      if(abs((*this).size[i]-v.size[i])>0.0000001)
+        equal=false;
+    }
+
+    return equal;
+  }
 
 
 /******************************************************************************

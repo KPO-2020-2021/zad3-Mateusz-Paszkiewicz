@@ -1,3 +1,4 @@
+
 /*
  * This file contains definitions made in CMakeLists.txt
  * that we want available in the source code.
@@ -6,6 +7,7 @@
  * right definition values. Change the namings as you wish,
  * but make sure they match up with whats in CMakeLists.txt.
  */
+
 #define PROJECT_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
 #define PROJECT_VERSION_MINOR @PROJECT_VERSION_MINOR@
 #define PROJECT_VERSION_PATCH @PROJECT_VERSION_PATCH@

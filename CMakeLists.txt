@@ -1,6 +1,6 @@
 # This file specifies how the project should be built, using CMake.
 # If you are unfamiliar with CMake, don't worry about all the details.
-# The sections you might want to edit are marked as such, and 
+# The sections you might want to edit are marked as such, and
 # the comments should hopefully make most of it clear.
 #
 # For many purposes, you may not need to change anything about this file.
@@ -8,7 +8,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Set project name, version and laguages here. (change as needed)
-# Version numbers are available by including "exampleConfig.h" in 
+# Version numbers are available by including "exampleConfig.h" in
 # the source. See exampleConfig.h.in for some more details.
 project(CPP_BOILERPLATE VERSION 1.2.3.4 LANGUAGES CXX)
 
@@ -38,11 +38,10 @@ find_lto(CXX)
 #                         Locate files (change as needed).
 # --------------------------------------------------------------------------------
 set(SOURCES          # All .cpp files in src/
-    src/example.cpp
     src/lacze_do_gnuplota
 )
 set(TESTFILES        # All .cpp files in tests/
-    tests/main.cpp
+    tests/RectangleTest.cpp
 )
 set(LIBRARY_NAME engine)  # Default name for the library built from src/*.cpp (change if you wish)
 
@@ -71,10 +70,10 @@ target_enable_lto(main optimized)  # enable link-time-optimization if available 
 
 # Set the properties you require, e.g. what C++ standard to use. Here applied to library and main (change as needed).
 set_target_properties(
-    ${LIBRARY_NAME} main 
-      PROPERTIES 
-        CXX_STANDARD 17 
-        CXX_STANDARD_REQUIRED YES 
+    ${LIBRARY_NAME} main
+      PROPERTIES
+        CXX_STANDARD 17
+        CXX_STANDARD_REQUIRED YES
         CXX_EXTENSIONS NO
 )
 
