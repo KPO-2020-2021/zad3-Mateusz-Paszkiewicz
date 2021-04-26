@@ -63,16 +63,18 @@ TEST_CASE("Matrix ()operator  test")
 
 TEST_CASE("Matrix ()operator  test")
 {
-  double sample[SIZE][SIZE]={{2,1,5},{10,15,20},{2,2,10}};
+  double sample[SIZE][SIZE]={{1,2,-1},{2,2,-1},{2,3,1}};
   Matrix mat=Matrix(sample);
+  double Augmented[SIZE]={8,10,5};
 
-  //double sample2[SIZE]={6.5, 3.25};
-  //Vector y=Vector();
+  std::cout<<mat;
 
-  double *x;
-  x=GaussElimination(mat);
 
-  CHECK(x[0]==2.5);
-  CHECK(x[1]==1);
-  CHECK(x[2]==5);
+  double x[SIZE];
+
+  GaussMethod(x,mat, Augmented);
+
+  CHECK(abs(x[0]- 2) < 0.00001);
+  CHECK(abs(x[1]- 1.4) < 0.00001);
+  CHECK(abs(x[2]+ 3.2) < 0.00001);
 }

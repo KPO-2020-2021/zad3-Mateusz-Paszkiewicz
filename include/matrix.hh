@@ -27,7 +27,7 @@ std::istream &operator>>(std::istream &in, Matrix &mat);
 
 std::ostream &operator<<(std::ostream &out, Matrix const &mat);
 
-double *GaussElimination(Matrix &);
+double GaussElimination(double *,Matrix &, double [SIZE]);
 
 /******************************************************************************
  |  Konstruktor klasy Matrix.                                                 |
@@ -91,7 +91,7 @@ Vector Matrix::operator * (Vector tmp) {
  */
 double &Matrix::operator()(unsigned int row, unsigned int column) {
 
-    if (row >= SIZE) {
+   if (row >= SIZE) {
         std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
@@ -114,6 +114,7 @@ double &Matrix::operator()(unsigned int row, unsigned int column) {
  |      Wartosc macierzy w danym miejscu tablicy jako stala.                  |
  */
 const double &Matrix::operator () (unsigned int row, unsigned int column) const {
+
 
     if (row >= SIZE) {
         std::cout << "Error: Macierz jest poza zasiegiem";
@@ -178,28 +179,70 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
     return out;
 }
 
-double *GaussElimination(Matrix &Mat)
-{
-   int i,j,k,
-   n=SIZE-2; // declare variables and matrixes as input
-   double b;
-   double *solution[SIZE];
 
-   //to find the elements of diagonal matrix
-   for(j=0; j<n; j++) {
-      for(i=0; i<n; i++) {
-         if(i!=j) {
-            b=Mat(i, j)/Mat(j, j);
-            for(k=0; k<=n; k++) {
-               Mat(i, k)=Mat(i, k)-b*Mat(j, k);
-            }
-         }
-      }
+double GaussMethod(double *outcome,Matrix &mat,double Aug[SIZE])
+{
+	 float a[10][10], ratio;
+   double x[10];
+	 int i,j,k, n=SIZE;
+
+   for(i=0;i<10;i++)
+  {
+     for(j=0;j<10;j++)
+     {
+        a[i][j]=-100;
+     }
    }
-   for(i=0; i<=n; i++)
+
+	 /* 2. Reading Augmented Matrix */
+	 for(i=1;i<=n;i++)
+	 {
+		  for(j=1;j<=n;j++)
+		  {
+			   a[i][j]=mat(i-1,j-1);
+		  }
+      a[i][SIZE+1]=Aug[i-1];
+	 }
+
+	/* Applying Gauss Elimination */
+	 for(i=1;i<=n-1;i++)
+	 {
+		  if(a[i][i] == 0.0)
+		  {
+			   std::cout<<"Mathematical Error!";
+			   exit(0);
+		  }
+		  for(j=i+1;j<=n;j++)
+		  {
+			   ratio = a[j][i]/a[i][i];
+
+			   for(k=1;k<=n+1;k++)
+			   {
+			  		a[j][k] = a[j][k] - ratio*a[i][k];
+			   }
+		  }
+	 }
+
+	 /* Obtaining Solution by Back Substitution Method */
+	 x[n] = a[n][n+1]/a[n][n];
+
+	 for(i=n-1;i>=1;i--)
+	 {
+		  x[i] = a[i][n+1];
+		  for(j=i+1;j<=n;j++)
+		  {
+		  		x[i] = x[i] - a[i][j]*x[j];
+		  }
+		  x[i] = x[i]/a[i][i];
+	 }
+
+	 /* Copying Solution */
+
+   for(i=0;i<n;i++)
    {
-      *solution[i]=Mat(i, n+1)/Mat(i, i);
-      std::cout<<"x"<<i << "="<<(&solution)[i]<<" ";
+     outcome[i]=x[i+1];
    }
-   return (*solution);
+
+
+   return 1;
 }
