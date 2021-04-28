@@ -39,6 +39,9 @@ find_lto(CXX)
 # --------------------------------------------------------------------------------
 set(SOURCES          # All .cpp files in src/
     src/lacze_do_gnuplota
+    src/matrix
+    src/vector
+    src/rectangle
 )
 set(TESTFILES        # All .cpp files in tests/
     tests/RectangleTest.cpp

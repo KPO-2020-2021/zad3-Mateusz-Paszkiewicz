@@ -67,9 +67,6 @@ TEST_CASE("Matrix ()operator  test")
   Matrix mat=Matrix(sample);
   double Augmented[SIZE]={8,10,5};
 
-  std::cout<<mat;
-
-
   double x[SIZE];
 
   GaussMethod(x,mat, Augmented);
