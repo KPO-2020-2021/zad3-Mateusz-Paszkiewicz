@@ -50,7 +50,7 @@ TEST_CASE("Matrix and vector multiplication test")
   CHECK(vec.size[1] == 23);
 }
 
-TEST_CASE("Matrix ()operator  test")
+TEST_CASE("Rotation Matrix constructor test")
 {
   double Translation[SIZE][SIZE]={{cos(0),-1*sin(0)},{sin(0),cos(0)}};
   Matrix mat=Matrix(Translation);
@@ -61,17 +61,15 @@ TEST_CASE("Matrix ()operator  test")
   CHECK(mat(1, 1) == 1);
 }
 
-TEST_CASE("Matrix ()operator  test")
+TEST_CASE("Matrix determinant evaluation with Gauss method test")
 {
-  double sample[SIZE][SIZE]={{1,2,-1},{2,2,-1},{2,3,1}};
+  double sample[SIZE][SIZE]={{1,2,3},{4,5,6},{7,8,10}};
   Matrix mat=Matrix(sample);
-  double Augmented[SIZE]={8,10,5};
 
-  double x[SIZE];
+  double val;
 
-  GaussMethod(x,mat, Augmented);
+  val=GaussMethod(mat);
 
-  CHECK(abs(x[0]- 2) < 0.00001);
-  CHECK(abs(x[1]- 1.4) < 0.00001);
-  CHECK(abs(x[2]+ 3.2) < 0.00001);
+  CHECK(val == -3);
+
 }

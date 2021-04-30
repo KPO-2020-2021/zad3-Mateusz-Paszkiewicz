@@ -153,10 +153,10 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
 }
 
 
-double GaussMethod(double *outcome,Matrix &mat,double Aug[SIZE])
+double GaussMethod(Matrix &mat)
 {
 	 float a[10][10], ratio;
-   double x[10];
+   double determinant=1;
 	 int i,j,k, n=SIZE;
 
    for(i=0;i<10;i++)
@@ -174,7 +174,6 @@ double GaussMethod(double *outcome,Matrix &mat,double Aug[SIZE])
 		  {
 			   a[i][j]=mat(i-1,j-1);
 		  }
-      a[i][SIZE+1]=Aug[i-1];
 	 }
 
 	/* Applying Gauss Elimination */
@@ -189,33 +188,20 @@ double GaussMethod(double *outcome,Matrix &mat,double Aug[SIZE])
 		  {
 			   ratio = a[j][i]/a[i][i];
 
-			   for(k=1;k<=n+1;k++)
+			   for(k=1;k<=n;k++)
 			   {
 			  		a[j][k] = a[j][k] - ratio*a[i][k];
 			   }
 		  }
 	 }
 
-	 /* Obtaining Solution by Back Substitution Method */
-	 x[n] = a[n][n+1]/a[n][n];
-
-	 for(i=n-1;i>=1;i--)
-	 {
-		  x[i] = a[i][n+1];
-		  for(j=i+1;j<=n;j++)
-		  {
-		  		x[i] = x[i] - a[i][j]*x[j];
-		  }
-		  x[i] = x[i]/a[i][i];
-	 }
-
-	 /* Copying Solution */
-
-   for(i=0;i<n;i++)
-   {
-     outcome[i]=x[i+1];
-   }
+    for(i=1;i<=n;i++)
+    {
+      determinant=determinant*a[i][i];
+    }
 
 
-   return 1;
+
+
+   return determinant;
 }

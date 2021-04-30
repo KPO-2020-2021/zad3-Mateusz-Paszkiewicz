@@ -27,4 +27,4 @@ std::istream &operator>>(std::istream &in, Matrix &mat);
 
 std::ostream &operator<<(std::ostream &out, Matrix const &mat);
 
-double GaussMethod(double *,Matrix &, double [SIZE]);
+double GaussMethod(Matrix &);
