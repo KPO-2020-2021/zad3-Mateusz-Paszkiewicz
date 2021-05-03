@@ -1,6 +1,6 @@
 #pragma once
 
-#include "matrix.hh"
+#include "../src/matrix.cpp"
 #include <cmath>
 
 //    BUDOWA PROSTKATA :

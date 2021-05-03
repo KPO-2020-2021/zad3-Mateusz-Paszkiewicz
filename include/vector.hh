@@ -3,32 +3,35 @@
 #include "size.hh"
 #include <iostream>
 
+template<typename T, unsigned int dime>
 class Vector {
 
 public:
 
-    double size[SIZE];     //Tablica wektora
+    T size[dime];     //Tablica wektora
 
     Vector();
 
-    Vector(double [SIZE]);
+    Vector(T [dime]);
 
-    Vector operator + (const Vector &v);
+    Vector operator + (const Vector<T, dime> v);
 
-    Vector operator - (const Vector &v);
+    Vector operator - (const Vector<T, dime> v);
 
-    Vector operator * (const double &tmp);
+    Vector operator * (const T &tmp);
 
-    Vector operator / (const double &tmp);
+    Vector operator / (const T &tmp);
 
-    const double &operator [] (int index) const;
+    const T &operator [] (int index) const;
 
-    double &operator [] (int index);
+    T &operator [] (int index);
 
-    bool operator == (const Vector&) const;
+    bool operator == (const Vector<T, dime> ) const;
 
 };
 
-std::ostream &operator << (std::ostream &out, Vector const &tmp);
+template<typename T, unsigned int dime>
+std::ostream &operator << (std::ostream &out, Vector<T, dime> const &tmp);
 
-std::istream &operator >> (std::istream &in, Vector &tmp);
+template<typename T, unsigned int dime>
+std::istream &operator >> (std::istream &in, Vector<T, dime> &tmp);

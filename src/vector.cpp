@@ -9,8 +9,9 @@
  |  Zwraca:                                                                   |
  |      Tablice wypelniona wartoscia 0.                                       |
  */
-Vector::Vector() {
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+Vector<T, dime>::Vector() {
+    for (int i = 0; i < dime; ++i) {
         size[i] = 0;
     }
 }
@@ -23,9 +24,9 @@ Vector::Vector() {
  |  Zwraca:                                                                   |
  |      Tablice wypelniona wartosciami podanymi w argumencie.                 |
  */
-
-Vector::Vector(double tmp[SIZE]) {
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+Vector<T, dime>::Vector(T tmp[dime]) {
+    for (int i = 0; i < dime; ++i) {
         size[i] = tmp[i];
     }
 }
@@ -40,9 +41,10 @@ Vector::Vector(double tmp[SIZE]) {
  |      Sume dwoch skladnikow przekazanych jako wskaznik                      |
  |      na parametr.                                                          |
  */
-Vector Vector::operator + (const Vector &v) {
-    Vector result;
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+Vector<T, dime> Vector<T, dime>::operator + (const Vector<T, dime> v) {
+    Vector<T, dime> result;
+    for (int i = 0; i < dime; ++i) {
         result[i] = size[i] += v[i];
     }
     return result;
@@ -58,9 +60,10 @@ Vector Vector::operator + (const Vector &v) {
  |      Roznice dwoch skladnikow przekazanych jako wskaznik                   |
  |      na parametr.                                                          |
  */
-Vector Vector::operator - (const Vector &v) {
-    Vector result;
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+Vector<T, dime> Vector<T, dime>::operator - (const Vector<T, dime> v) {
+    Vector<T, dime> result;
+    for (int i = 0; i < dime; ++i) {
         result[i] = size[i] -= v[i];
     }
     return result;
@@ -76,10 +79,10 @@ Vector Vector::operator - (const Vector &v) {
  |      Iloczyn dwoch skladnikow przekazanych jako wskaznik                   |
  |      na parametr.                                                          |
  */
-
-Vector Vector::operator * (const double &tmp) {
-    Vector result;
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+Vector<T, dime> Vector<T, dime>::operator * (const T &tmp) {
+    Vector<T, dime> result;
+    for (int i = 0; i < dime; ++i) {
         result[i] = size[i] *= tmp;
     }
     return result;
@@ -95,11 +98,11 @@ Vector Vector::operator * (const double &tmp) {
  |      Iloraz dwoch skladnikow przekazanych jako wskaznik                    |
  |      na parametr.                                                          |
  */
+template<typename T, unsigned int dime>
+Vector<T, dime> Vector<T, dime>::operator / (const T &tmp) {
+    Vector<T, dime> result;
 
-Vector Vector::operator / (const double &tmp) {
-    Vector result;
-
-    for (int i = 0; i < SIZE; ++i) {
+    for (int i = 0; i < dime; ++i) {
         result[i] = size[i] / tmp;
     }
 
@@ -114,8 +117,9 @@ Vector Vector::operator / (const double &tmp) {
  |  Zwraca:                                                                   |
  |      Wartosc wektora w danym miejscu tablicy jako stala.                   |
  */
-const double &Vector::operator [] (int index) const {
-    if (index < 0 || index >= SIZE) {
+template<typename T, unsigned int dime>
+const T &Vector<T, dime>::operator [] (int index) const {
+    if (index < 0 || index >= dime) {
         std::cerr << "Error: Wektor jest poza zasiegiem!" << std::endl;
     } // lepiej byłoby rzucić wyjątkiem stdexcept
     return size[index];
@@ -129,16 +133,17 @@ const double &Vector::operator [] (int index) const {
  |  Zwraca:                                                                   |
  |      Wartosc wektora w danym miejscu tablicy.                              |
  */
-double &Vector::operator[](int index) {
-    return const_cast<double &>(const_cast<const Vector *>(this)->operator[](index));
+template<typename T, unsigned int dime>
+T &Vector<T, dime>::operator[](int index) {
+    return const_cast<T &>(const_cast<const Vector *>(this)->operator[](index));
 }
 
 
-
-bool Vector::operator == (const Vector &v) const
+template<typename T, unsigned int dime>
+bool Vector<T, dime>::operator == (const Vector<T, dime> v) const
   {
     bool equal=true;
-    for(int i=0; i<SIZE; ++i)
+    for(int i=0; i<dime; ++i)
     {
       if(abs((*this).size[i]-v.size[i])>0.0000001)
         equal=false;
@@ -154,8 +159,9 @@ bool Vector::operator == (const Vector &v) const
  |      out - strumien wejsciowy,                                             |
  |      tmp - wektor.                                                         |
  */
-std::ostream &operator << (std::ostream &out, Vector const &tmp) {
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+std::ostream &operator << (std::ostream &out, Vector<T, dime> const &tmp) {
+    for (int i = 0; i < dime; ++i) {
         out << "[ " << tmp[i] << " ]\n";
     }
     return out;
@@ -168,8 +174,9 @@ std::ostream &operator << (std::ostream &out, Vector const &tmp) {
  |      in - strumien wyjsciowy,                                              |
  |      tmp - wektor.                                                         |
  */
-std::istream &operator >> (std::istream &in, Vector &tmp) {
-    for (int i = 0; i < SIZE; ++i) {
+template<typename T, unsigned int dime>
+std::istream &operator >> (std::istream &in, Vector<T, dime> tmp) {
+    for (int i = 0; i < dime; ++i) {
         in >> tmp[i];
     }
     std::cout << std::endl;

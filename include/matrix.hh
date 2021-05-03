@@ -5,26 +5,30 @@
 #include <iostream>
 #include <cstdlib>
 
+template<typename T, unsigned int dime>
 class Matrix {
-
 public:
-    double value[SIZE][SIZE];               // Wartosci macierzy
 
-    Matrix(double [SIZE][SIZE]);            // Konstruktor klasy
+    T value[dime][dime];               // Wartosci macierzy
 
-    Matrix();                               // Konstruktor klasy
+    Matrix();
 
-    Vector operator * (Vector tmp);           // Operator mnożenia przez wektor
+    Matrix(T [dime][dime]);            // Konstruktor klasy
+
+    Vector<T, dime> operator * (Vector<T, dime> tmp);           // Operator mnożenia przez wektor
 
     Matrix operator + (Matrix tmp);
 
-    double  &operator () (unsigned int row, unsigned int column);
+    T  &operator () (unsigned int row, unsigned int column);
 
-    const double &operator () (unsigned int row, unsigned int column) const;
+    const T &operator () (unsigned int row, unsigned int column) const;
 };
 
-std::istream &operator>>(std::istream &in, Matrix &mat);
+template<typename T, unsigned int dime>
+std::istream &operator>>(std::istream &in, Matrix<T, dime> &mat);
 
-std::ostream &operator<<(std::ostream &out, Matrix const &mat);
+template<typename T, unsigned int dime>
+std::ostream &operator<<(std::ostream &out, Matrix<T, dime> const &mat);
 
-double GaussMethod(Matrix &);
+template<typename T, unsigned int dime>
+T GaussMethod(Matrix<T, dime>);

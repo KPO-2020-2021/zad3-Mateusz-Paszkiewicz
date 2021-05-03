@@ -9,9 +9,10 @@
  |  Zwraca:                                                                   |
  |      Macierz wypelnione wartoscia 0.                                       |
  */
-Matrix::Matrix() {
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+Matrix<T, dime>::Matrix() {
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned int j = 0; j < dime; ++j) {
             value[i][j] = 0;
         }
     }
@@ -25,9 +26,11 @@ Matrix::Matrix() {
  |  Zwraca:                                                                   |
  |      Macierz wypelniona wartosciami podanymi w argumencie.                 |
  */
-Matrix::Matrix(double tmp[SIZE][SIZE]) {
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+Matrix<T, dime>::Matrix(T tmp[dime][dime])
+{
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned int j = 0; j < dime; ++j) {
             value[i][j] = tmp[i][j];
         }
     }
@@ -42,11 +45,11 @@ Matrix::Matrix(double tmp[SIZE][SIZE]) {
  |  Zwraca:                                                                   |
  |      Iloczyn dwoch skladnikow przekazanych jako wektor.                    |
  */
-
-Vector Matrix::operator * (Vector tmp) {
-    Vector result;
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+Vector<T,dime> Matrix<T, dime>::operator * (Vector<T, dime> tmp) {
+    Vector<T, dime> result;
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned int j = 0; j < dime; ++j) {
             result[i] += value[i][j] * tmp[j];
         }
     }
@@ -62,14 +65,15 @@ Vector Matrix::operator * (Vector tmp) {
  |  Zwraca:                                                                   |
  |      Wartosc macierzy w danym miejscu tablicy.                             |
  */
-double &Matrix::operator()(unsigned int row, unsigned int column) {
-
-   if (row >= SIZE) {
+template<typename T, unsigned int dime>
+T &Matrix<T, dime>::operator()(unsigned int row, unsigned int column)
+{
+   if (row >= dime) {
         std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
 
-    if (column >= SIZE) {
+    if (column >= dime) {
         std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
@@ -86,15 +90,16 @@ double &Matrix::operator()(unsigned int row, unsigned int column) {
  |  Zwraca:                                                                   |
  |      Wartosc macierzy w danym miejscu tablicy jako stala.                  |
  */
-const double &Matrix::operator () (unsigned int row, unsigned int column) const {
+template<typename T, unsigned int dime>
+const T &Matrix<T, dime>::operator () (unsigned int row, unsigned int column) const {
 
 
-    if (row >= SIZE) {
+    if (row >= dime) {
         std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
 
-    if (column >= SIZE) {
+    if (column >= dime) {
         std::cout << "Error: Macierz jest poza zasiegiem";
         exit(0); // lepiej byłoby rzucić wyjątkiem stdexcept
     }
@@ -110,10 +115,11 @@ const double &Matrix::operator () (unsigned int row, unsigned int column) const 
  |  Zwraca:                                                                   |
  |      Macierz - iloczyn dwóch podanych macierzy.                  |
  */
-Matrix Matrix::operator + (Matrix tmp) {
-    Matrix result;
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+Matrix<T, dime> Matrix<T, dime>::operator + (Matrix<T, dime> tmp) {
+    Matrix<T, dime> result;
+    for (int i = 0; i < dime; ++i) {
+        for (int j = 0; j < dime; ++j) {
             result(i, j) = this->value[i][j] + tmp(i, j);
         }
     }
@@ -126,9 +132,10 @@ Matrix Matrix::operator + (Matrix tmp) {
  |      in - strumien wyjsciowy,                                              |
  |      mat - macierz.                                                         |
  */
-std::istream &operator>>(std::istream &in, Matrix &mat) {
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+std::istream &operator>>(std::istream &in, Matrix<T, dime> &mat) {
+    for (int i = 0; i < dime; ++i) {
+        for (int j = 0; j < dime; ++j) {
             in >> mat(i, j);
         }
     }
@@ -142,9 +149,10 @@ std::istream &operator>>(std::istream &in, Matrix &mat) {
  |      out - strumien wejsciowy,                                             |
  |      mat - macierz.                                                        |
  */
-std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
-    for (int i = 0; i < SIZE; ++i) {
-        for (int j = 0; j < SIZE; ++j) {
+template<typename T, unsigned int dime>
+std::ostream &operator<<(std::ostream &out, const Matrix<T, dime> &mat) {
+    for (int i = 0; i < dime; ++i) {
+        for (int j = 0; j < dime; ++j) {
             out << "| " << mat(i, j) << " | "; //warto ustalic szerokosc wyswietlania dokladnosci liczb
         }
         std::cout << std::endl;
@@ -152,20 +160,12 @@ std::ostream &operator<<(std::ostream &out, const Matrix &mat) {
     return out;
 }
 
-
-double GaussMethod(Matrix &mat)
+template<typename T, unsigned int dime>
+T GaussMethod(Matrix<T, dime> mat)
 {
-	 float a[10][10], ratio;
+	 float a[dime+2][dime+2], ratio;
    double determinant=1;
-	 int i,j,k, n=SIZE;
-
-   for(i=0;i<10;i++)
-  {
-     for(j=0;j<10;j++)
-     {
-        a[i][j]=-100;
-     }
-   }
+	 int i,j,k, n=dime;
 
 	 /* 2. Reading Augmented Matrix */
 	 for(i=1;i<=n;i++)
@@ -199,9 +199,6 @@ double GaussMethod(Matrix &mat)
     {
       determinant=determinant*a[i][i];
     }
-
-
-
 
    return determinant;
 }

@@ -64,7 +64,7 @@ std::ostream &operator<<(std::ostream &out, Rectangle &Rectangle)
 
 
 
-Rectangle Rectangle::operator+ (Vector const &Vect)
+Rectangle Rectangle::operator+ (Vector const Vect)
 {
   for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 2; ++j) {
@@ -87,7 +87,7 @@ Rectangle Rectangle::AngleTrans(double Angle)
   Vector p_3=Vector(Punkt_3);
 
   double Translation[][SIZE]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
-  Matrix Trans=Matrix(Translation);
+  Matrix<double, SIZE> Trans=Matrix<double, SIZE>(Translation);
 
   p_0=Trans*p_0;
   p_1=Trans*p_1;
