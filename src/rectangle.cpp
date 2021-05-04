@@ -1,4 +1,6 @@
 #include "../include/rectangle.hh"
+#include "../include/vector.hh"
+#include "../src/vector.cpp"
 #include <cmath>
 
 Rectangle::Rectangle() {
@@ -64,7 +66,7 @@ std::ostream &operator<<(std::ostream &out, Rectangle &Rectangle)
 
 
 
-Rectangle Rectangle::operator+ (Vector const Vect)
+Rectangle Rectangle::operator+ (Vector<double, 2> const Vect)
 {
   for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 2; ++j) {
@@ -77,17 +79,17 @@ Rectangle Rectangle::operator+ (Vector const Vect)
 
 Rectangle Rectangle::AngleTrans(double Angle)
 {
-  double Punkt_0[SIZE]={rect[0][0], rect[0][1]};
-  Vector p_0=Vector(Punkt_0);
-  double Punkt_1[SIZE]={rect[1][0], rect[1][1]};
-  Vector p_1=Vector(Punkt_1);
-  double Punkt_2[SIZE]={rect[2][0], rect[2][1]};
-  Vector p_2=Vector(Punkt_2);
-  double Punkt_3[SIZE]={rect[3][0], rect[3][1]};
-  Vector p_3=Vector(Punkt_3);
+  double Punkt_0[2]={rect[0][0], rect[0][1]};
+  Vector<double, 2> p_0=Vector<double, 2> (Punkt_0);
+  double Punkt_1[2]={rect[1][0], rect[1][1]};
+  Vector<double, 2> p_1=Vector<double, 2> (Punkt_1);
+  double Punkt_2[2]={rect[2][0], rect[2][1]};
+  Vector<double, 2> p_2=Vector<double, 2> (Punkt_2);
+  double Punkt_3[2]={rect[3][0], rect[3][1]};
+  Vector<double, 2> p_3=Vector<double, 2> (Punkt_3);
 
-  double Translation[][SIZE]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
-  Matrix<double, SIZE> Trans=Matrix<double, SIZE>(Translation);
+  double Translation[][2]={{cos(Angle),-1*sin(Angle)},{sin(Angle),cos(Angle)}};
+  Matrix<double, 2> Trans=Matrix<double, 2>(Translation);
 
   p_0=Trans*p_0;
   p_1=Trans*p_1;

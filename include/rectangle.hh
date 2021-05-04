@@ -23,14 +23,11 @@ public:
 
     Rectangle(double [4][2]);
 
-    Rectangle operator+ (Vector const &);
+    Rectangle operator+ (Vector<double, 2> const);
 
     Rectangle AngleTrans(double Angle);
 
     double &operator () (unsigned int point, unsigned int axis);
-
-    Rectangle operator* (Vector const &);
-
 };
 
 std::istream &operator>>(std::istream &in, Rectangle &rect);

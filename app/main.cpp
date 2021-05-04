@@ -14,7 +14,8 @@
 #include <limits>
 
 #include "exampleConfig.h"
-#include "vector.hh"
+#include "../include/vector.hh"
+#include "../src/vector.cpp"
 #include "matrix.hh"
 #include "../include/lacze_do_gnuplota.hh"
 #include "rectangle.hh"
@@ -136,7 +137,10 @@ int main() {
   // std::system("cat ../LICENSE");
   // do zadania Rotacja 2D
 
-
+    Matrix<double, 2> Chuj= Matrix<double, 2>();
+    std::cout<<sizeof(Chuj);
+    Vector<double, 2> Chujek= Vector<double, 2>();
+    std::cout<<sizeof(Chujek);
 
     PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
                                 // rysunku prostokata
@@ -195,9 +199,9 @@ int main() {
       std::cout<<"please pass the vector values [x,y]:"<<std::endl;
 
       std::cin>>input[0]; std::cin>>input[1];
-      Vector vector= Vector(input);
+      Vector<double,2> vec= Vector<double, 2>(input);
 
-      rect=rect+vector;
+      rect=rect+vec;
 
       if (!SaveCoordsToFile("../datasets/prostokat.dat",rect))
         std::cerr<<"Err: Cannot save coords to file";

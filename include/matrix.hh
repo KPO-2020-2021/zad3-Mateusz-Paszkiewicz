@@ -17,7 +17,7 @@ public:
 
     Vector<T, dime> operator * (Vector<T, dime> tmp);           // Operator mnożenia przez wektor
 
-    Matrix operator + (Matrix tmp);
+    Matrix operator + (Matrix<T, dime> tmp);
 
     T  &operator () (unsigned int row, unsigned int column);
 

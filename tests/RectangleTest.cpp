@@ -1,6 +1,7 @@
 #include "../include/matrix.hh"
 #include "../include/rectangle.hh"
 #include "../include/vector.hh"
+#include "../src/vector.cpp"
 
 // This is all that is needed to compile a test-runner executable.
 // More tests can be added here, or in a new tests/*.cpp file.
@@ -40,8 +41,8 @@ TEST_CASE("Vector Translation for Rectangle class Test")
   double sample[4][2]={{-10,10},{10,10},{10,-10},{-10,-10}};
   Rectangle test=Rectangle(sample);
 
-  double sample2[SIZE]={10,-10};
-  Vector Vec=Vector(sample2);
+  double sample2[2]={10,-10};
+  Vector<double, 2> Vec=Vector<double, 2>(sample2);
 
   test=test+Vec;
 

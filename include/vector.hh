@@ -5,7 +5,6 @@
 
 template<typename T, unsigned int dime>
 class Vector {
-
 public:
 
     T size[dime];     //Tablica wektora
@@ -22,9 +21,9 @@ public:
 
     Vector operator / (const T &tmp);
 
-    const T &operator [] (int index) const;
+    const T &operator [] (unsigned int index) const;
 
-    T &operator [] (int index);
+    T &operator [] (unsigned int index);
 
     bool operator == (const Vector<T, dime> ) const;
 

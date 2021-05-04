@@ -1,5 +1,6 @@
 #include "../include/vector.hh"
 #include <iostream>
+#include <cstdlib>
 
 
 /******************************************************************************
@@ -11,7 +12,7 @@
  */
 template<typename T, unsigned int dime>
 Vector<T, dime>::Vector() {
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         size[i] = 0;
     }
 }
@@ -26,7 +27,7 @@ Vector<T, dime>::Vector() {
  */
 template<typename T, unsigned int dime>
 Vector<T, dime>::Vector(T tmp[dime]) {
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         size[i] = tmp[i];
     }
 }
@@ -44,7 +45,7 @@ Vector<T, dime>::Vector(T tmp[dime]) {
 template<typename T, unsigned int dime>
 Vector<T, dime> Vector<T, dime>::operator + (const Vector<T, dime> v) {
     Vector<T, dime> result;
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         result[i] = size[i] += v[i];
     }
     return result;
@@ -63,7 +64,7 @@ Vector<T, dime> Vector<T, dime>::operator + (const Vector<T, dime> v) {
 template<typename T, unsigned int dime>
 Vector<T, dime> Vector<T, dime>::operator - (const Vector<T, dime> v) {
     Vector<T, dime> result;
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         result[i] = size[i] -= v[i];
     }
     return result;
@@ -82,7 +83,7 @@ Vector<T, dime> Vector<T, dime>::operator - (const Vector<T, dime> v) {
 template<typename T, unsigned int dime>
 Vector<T, dime> Vector<T, dime>::operator * (const T &tmp) {
     Vector<T, dime> result;
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         result[i] = size[i] *= tmp;
     }
     return result;
@@ -102,7 +103,7 @@ template<typename T, unsigned int dime>
 Vector<T, dime> Vector<T, dime>::operator / (const T &tmp) {
     Vector<T, dime> result;
 
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         result[i] = size[i] / tmp;
     }
 
@@ -118,7 +119,7 @@ Vector<T, dime> Vector<T, dime>::operator / (const T &tmp) {
  |      Wartosc wektora w danym miejscu tablicy jako stala.                   |
  */
 template<typename T, unsigned int dime>
-const T &Vector<T, dime>::operator [] (int index) const {
+const T &Vector<T, dime>::operator [] (unsigned int index) const {
     if (index < 0 || index >= dime) {
         std::cerr << "Error: Wektor jest poza zasiegiem!" << std::endl;
     } // lepiej byłoby rzucić wyjątkiem stdexcept
@@ -134,7 +135,7 @@ const T &Vector<T, dime>::operator [] (int index) const {
  |      Wartosc wektora w danym miejscu tablicy.                              |
  */
 template<typename T, unsigned int dime>
-T &Vector<T, dime>::operator[](int index) {
+T &Vector<T, dime>::operator[](unsigned int index) {
     return const_cast<T &>(const_cast<const Vector *>(this)->operator[](index));
 }
 
@@ -143,7 +144,7 @@ template<typename T, unsigned int dime>
 bool Vector<T, dime>::operator == (const Vector<T, dime> v) const
   {
     bool equal=true;
-    for(int i=0; i<dime; ++i)
+    for(unsigned int i=0; i<dime; ++i)
     {
       if(abs((*this).size[i]-v.size[i])>0.0000001)
         equal=false;
@@ -161,7 +162,7 @@ bool Vector<T, dime>::operator == (const Vector<T, dime> v) const
  */
 template<typename T, unsigned int dime>
 std::ostream &operator << (std::ostream &out, Vector<T, dime> const &tmp) {
-    for (int i = 0; i < dime; ++i) {
+    for (unsigned int i = 0; i < dime; ++i) {
         out << "[ " << tmp[i] << " ]\n";
     }
     return out;
@@ -175,8 +176,8 @@ std::ostream &operator << (std::ostream &out, Vector<T, dime> const &tmp) {
  |      tmp - wektor.                                                         |
  */
 template<typename T, unsigned int dime>
-std::istream &operator >> (std::istream &in, Vector<T, dime> tmp) {
-    for (int i = 0; i < dime; ++i) {
+std::istream &operator >> (std::istream &in, Vector<T, dime> &tmp) {
+    for (unsigned int i = 0; i < dime; ++i) {
         in >> tmp[i];
     }
     std::cout << std::endl;

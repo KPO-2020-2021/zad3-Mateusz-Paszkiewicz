@@ -42,7 +42,7 @@ TEST_CASE("Matrix and vector multiplication test")
   Matrix<double, 2> mat=Matrix(sample);
 
   double sample2[2]={1,5};
-  Vector vec=Vector(sample2);
+  Vector<double, 2> vec=Vector<double, 2>(sample2);
 
   vec=mat*vec;
 
