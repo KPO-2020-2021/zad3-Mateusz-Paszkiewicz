@@ -62,3 +62,16 @@ TEST_CASE("Matrix determinant evaluation with Gauss method test")
   CHECK(val == -3);
 
 }
+
+TEST_CASE("Matrix multiplication operator test")
+{
+  double foo[3][3]={{1,2,3},{4,5,6},{7,8,10}};
+  double bar[3][3]={{1,0,0},{0,1,0},{0,0,1}};
+
+  Matrix<double, 3> a=Matrix<double, 3>(foo);
+  Matrix<double, 3> b=Matrix<double, 3>(bar);
+  Matrix<double, 3> res=Matrix<double, 3>(foo);
+
+  CHECK(res == a*b);
+
+}

@@ -107,6 +107,17 @@ const T &Matrix<T, dime>::operator () (unsigned int row, unsigned int column) co
     return value[row][column];
 }
 
+template<typename T, unsigned int dime>
+bool Matrix<T, dime>::operator == (Matrix<T, dime> const tmp) const {
+  for (unsigned int i = 0; i < dime; ++i) {
+      for (unsigned int j = 0; j < dime; ++j) {
+        if(!((*this)(i, j)==tmp(i, j)))
+          return false;
+        }
+      }
+  return true;
+}
+
 /******************************************************************************
  |  Przeciążenie dodawania macierzy                                                          |
  |  Argumenty:                                                                |
@@ -118,11 +129,27 @@ const T &Matrix<T, dime>::operator () (unsigned int row, unsigned int column) co
 template<typename T, unsigned int dime>
 Matrix<T, dime> Matrix<T, dime>::operator + (Matrix<T, dime> tmp) {
     Matrix<T, dime> result;
-    for (int i = 0; i < dime; ++i) {
-        for (int j = 0; j < dime; ++j) {
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned int j = 0; j < dime; ++j) {
             result(i, j) = this->value[i][j] + tmp(i, j);
         }
     }
+    return result;
+}
+
+template<typename T, unsigned int dime>
+Matrix<T, dime> Matrix<T, dime>::operator * (Matrix<T, dime> const tmp)
+{
+    Matrix<T, dime> result= Matrix<T, dime>();
+    for(unsigned int i = 0; i<dime; ++i)
+    {
+      for(unsigned int j = 0; j<dime; ++j)
+        {
+          for(unsigned int k = 0; k < dime; ++k)
+            result(i, j)+=(*this)(i, k)*tmp(k, j);
+        }
+    }
+
     return result;
 }
 
@@ -134,8 +161,8 @@ Matrix<T, dime> Matrix<T, dime>::operator + (Matrix<T, dime> tmp) {
  */
 template<typename T, unsigned int dime>
 std::istream &operator>>(std::istream &in, Matrix<T, dime> &mat) {
-    for (int i = 0; i < dime; ++i) {
-        for (int j = 0; j < dime; ++j) {
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned int j = 0; j < dime; ++j) {
             in >> mat(i, j);
         }
     }
@@ -151,8 +178,8 @@ std::istream &operator>>(std::istream &in, Matrix<T, dime> &mat) {
  */
 template<typename T, unsigned int dime>
 std::ostream &operator<<(std::ostream &out, const Matrix<T, dime> &mat) {
-    for (int i = 0; i < dime; ++i) {
-        for (int j = 0; j < dime; ++j) {
+    for (unsigned int i = 0; i < dime; ++i) {
+        for (unsigned  int j = 0; j < dime; ++j) {
             out << "| " << mat(i, j) << " | "; //warto ustalic szerokosc wyswietlania dokladnosci liczb
         }
         std::cout << std::endl;
