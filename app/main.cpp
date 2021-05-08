@@ -137,11 +137,6 @@ int main() {
   // std::system("cat ../LICENSE");
   // do zadania Rotacja 2D
 
-    Matrix<double, 2> Chuj= Matrix<double, 2>();
-    std::cout<<sizeof(Chuj);
-    Vector<double, 2> Chujek= Vector<double, 2>();
-    std::cout<<sizeof(Chujek);
-
     PzG::LaczeDoGNUPlota  Lacze;  // Ta zmienna jest potrzebna do wizualizacji
                                 // rysunku prostokata
 

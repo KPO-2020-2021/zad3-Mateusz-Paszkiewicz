@@ -32,7 +32,7 @@ namespace PzG {
  }
 
 
-  LaczeDoGNUPlota::~LaczeDoGNUPlota() 
+  LaczeDoGNUPlota::~LaczeDoGNUPlota()
   {}
 
 
@@ -40,7 +40,7 @@ namespace PzG {
  {
   int Ilosc = strlen(Komunikat);
   int IloscPrzeslanych;
-  
+
   while (((IloscPrzeslanych = write(_Wejscie_GNUPlota,Komunikat,Ilosc)) != -1)
           && Ilosc > 0) {
     Komunikat += IloscPrzeslanych;
@@ -56,13 +56,13 @@ namespace PzG {
 
 
 
- LaczeDoGNUPlota::LaczeDoGNUPlota() 
- { 
+ LaczeDoGNUPlota::LaczeDoGNUPlota()
+ {
    _PokazOs_OX = _PokazOs_OY = _PokazOs_OZ = true;
 
    _TrybRys = TR_2D;
    WyswietlajKomunikatyBledow();
-   _Wyjscie_GNUPlota = _Wejscie_GNUPlota = -1; 
+   _Wyjscie_GNUPlota = _Wejscie_GNUPlota = -1;
    UstawZakresX(-350,350);
    UstawZakresY(-350,350);
    UstawZakresZ(-200,200);
@@ -94,7 +94,7 @@ namespace PzG {
  // POST:
  //  Zwraca wartosc:
  //     true - jezeli istnieje plik o nazwie zawartej w zmiennej NazwaPliku.
- //             Zostaje on ponadto dodany do listy plikow z danymi 
+ //             Zostaje on ponadto dodany do listy plikow z danymi
  //             dla gnuplota.
  //    fasle - Jezeli nie istnieje plik o nazwie zawartej w zmiennej
  //            NazwaPliku. Zadne dodatkowe dzialanie nie jest realizowane.
@@ -120,7 +120,7 @@ namespace PzG {
 
  //-------------------------------------------------------------------------
  // Informuje, czy połączenie z programem gnuplot zostało zainicjowane.
- // 
+ //
  bool LaczeDoGNUPlota::CzyPolaczenieJestZainicjowane() const
  {
   return _Wejscie_GNUPlota > -1 && _Wyjscie_GNUPlota > -1;
@@ -154,7 +154,7 @@ namespace PzG {
  *  poprzez przejęcie jego wejścia i wyjścia standardowego.
  *
  *  \retval true - gdy połączenie z programem \e gnuplot zostało poprawnie
- *               zainicjalizowane lub gdy już wcześniej było 
+ *               zainicjalizowane lub gdy już wcześniej było
  *               zainicjalizowane.
  *  \retval false - gdy proces inicjalizacji połączenia zakończył się
  *               niepowodzeniem.
@@ -172,27 +172,27 @@ namespace PzG {
   switch (fork()) {
     case -1: KomunikatBledu("### Niemozliwe rozwidlenie procesu.");
              exit(1);
-    case  0: 
+    case  0:
        /* Start potomka */
 
-       if (close(STDIN) == -1) { 
+       if (close(STDIN) == -1) {
          KomunikatBledu("### Blad przy zamykaniu strumienia wejsciowego.");
          exit(1);
        }
        if (dup(outdesk[STDIN]) == -1) {
-         KomunikatBledu("### Blad duplikacji kanalu wejsciowego.");  
+         KomunikatBledu("### Blad duplikacji kanalu wejsciowego.");
          exit(1);
        }
-       
-       if (close(STDOUT) == -1) { 
+
+       if (close(STDOUT) == -1) {
          KomunikatBledu(
-            "### Blad zamkniecia kanalu standardowego kanalu wyjsciowego."); 
+            "### Blad zamkniecia kanalu standardowego kanalu wyjsciowego.");
          exit(1);
        }
        if (dup(indesk[STDOUT]) == -1) {
-         KomunikatBledu("### Blad duplikacji kanalu wyjsciowego.");  
+         KomunikatBledu("### Blad duplikacji kanalu wyjsciowego.");
          exit(1);
-       }       
+       }
        if (close(outdesk[STDIN]) == -1) {
          KomunikatBledu("### Blad zamkniecia kanalu wejsciowego.");
          exit(1);
@@ -211,24 +211,24 @@ namespace PzG {
        }
        char Tab[3];
        read(STDIN,Tab,1);
-       write(STDOUT,"\n",1); 
+       write(STDOUT,"\n",1);
        const char *Comm;
 
        execlp(Comm = "gnuplot","gnuplot",NULL);
 
-       KomunikatBledu("!!! Blad:"); 
-       KomunikatBledu("!!! W procesie potomnym nie mogl zostac."); 
-       KomunikatBledu("!!! uruchomiony program gnuplot."); 
-       KomunikatBledu("!!! Nastapilo przerwanie dzialania procesu potomnego."); 
-       KomunikatBledu("!!! Jednym z mozliwych powodow problemu moze byc"); 
-       KomunikatBledu("!!! Brak programu gnuplot w szukanej sciezce."); 
+       KomunikatBledu("!!! Blad:");
+       KomunikatBledu("!!! W procesie potomnym nie mogl zostac.");
+       KomunikatBledu("!!! uruchomiony program gnuplot.");
+       KomunikatBledu("!!! Nastapilo przerwanie dzialania procesu potomnego.");
+       KomunikatBledu("!!! Jednym z mozliwych powodow problemu moze byc");
+       KomunikatBledu("!!! Brak programu gnuplot w szukanej sciezce.");
        KomunikatBledu("!!! Do uruchomienia programu gnuplot bylo uzyte polecenie:");
        KomunikatBledu(Comm);
        exit(1);
 
     default:
-       if (close(outdesk[STDIN]) == -1 || close(indesk[STDOUT]) == -1) { 
-         KomunikatBledu(" Blad zamkniecia outpipe[STDIN], inpipe[STDOUT]."); 
+       if (close(outdesk[STDIN]) == -1 || close(indesk[STDOUT]) == -1) {
+         KomunikatBledu(" Blad zamkniecia outpipe[STDIN], inpipe[STDOUT].");
        }
 
        fcntl(indesk[STDIN],F_SETFL,O_NDELAY);
@@ -269,23 +269,23 @@ namespace PzG {
  * Tworzy napis będący parametrami dla polecenie \e plot programu,
  * \e gnuplot. Parametry te pozwalają na rysowanie brył, których
  *  współrzędne wierzchołków zawarte są w plikach.
- *  Nazwy tych plików muszą być wcześniej dołączone do kolejki 
+ *  Nazwy tych plików muszą być wcześniej dołączone do kolejki
  *  plików poprzez zastosowanie polecenia
  *   \link LaczeDoGNUPlota::DodajNazwe DodajNazwe\endlink.
- *  
+ *
  * \param Polecenie - dopisywana jest do niego sekwencja znaków
  *                  tworzących parametry dla polecenia \e plot.
  * \param Sep - zawiera znak separatora między poszczególnymi
  *              parametrami. Jeżeli parametry listy nazw plików
- *              są generowane jako pierwsze, to zmienna ta musi 
+ *              są generowane jako pierwsze, to zmienna ta musi
  *              być wskaźnikiem do wskaźnika na łańcuch: " ".
  * \retval true - jeśli lista nazw plików nie jest pusta.
  * \retval false - w przypadku przeciwnym.
  * \post Jeżeli  lista nazw plików nie jest pusta, to poprzez
  *              parametr \e Sep zostaje udostępniony łańcuch: ", ".
  */
- bool LaczeDoGNUPlota::DopiszRysowanieZPlikow( std::string  &Polecenie, 
-                                                char const **Sep 
+ bool LaczeDoGNUPlota::DopiszRysowanieZPlikow( std::string  &Polecenie,
+                                                char const **Sep
                                              )
  {
   if (_InfoPlikow.empty()) return false;
@@ -297,7 +297,7 @@ namespace PzG {
        Polecenie += *Sep;
        Polecenie += " \'";
        Polecenie += Nazwy->WezNazwePliku();
-       ((Polecenie += '\'') += " notitle ") += 
+       ((Polecenie += '\'') += " notitle ") +=
        (Nazwy->WezRodzRys() == RR_Ciagly ? " w l" : " w p pt 5");
        if  (Nazwy->WezRodzRys() == RR_Ciagly) OSStrm << " lw " << Nazwy->WezSzerokosc();
                                          else OSStrm << " ps " << Nazwy->WezSzerokosc();
@@ -312,7 +312,7 @@ namespace PzG {
  //-------------------------------------------------------------------------
  //  Jezeli lista plikow nie jest pusta, to generuje sekwencje polecen
  //  dla programu gnuplot majaca na celu narysowanie plaszczyzn na
- //  na podstawie danych zawartych w plikach z listy. 
+ //  na podstawie danych zawartych w plikach z listy.
  //
  //  PRE:  Na liscie plikow nie powinna byc pusta. Nazwy plikow na niej
  //        mozna umiescic za pomoca metody 'DodajNazwe'.
@@ -386,7 +386,7 @@ namespace PzG {
                        "set parametric\n"
                        "set isosamples 9\n"
                        "set urange [-180:180]\n"
-                       "set vrange [-90:90]\n";  
+                       "set vrange [-90:90]\n";
 
   if (_PokazOs_OX) Preambula += "set xzeroaxis lt 0 lw 1\n";
   if (_PokazOs_OY) Preambula += "set yzeroaxis lt 0 lw 1\n";
@@ -423,7 +423,7 @@ std::string LaczeDoGNUPlota::ZapiszUstawienieZakresu(char Os) const
 std::string LaczeDoGNUPlota::ZapiszUstawienieRotacjiISkali() const
 {
   ostringstream strm;
-  strm << "set view " << RotacjaX() << "," << RotacjaZ() 
+  strm << "set view " << RotacjaX() << "," << RotacjaZ()
        << "," << SkalaX() << "," << SkalaZ() << endl;
   return strm.str();
 }
