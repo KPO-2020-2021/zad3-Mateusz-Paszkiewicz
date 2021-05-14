@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../src/matrix.cpp"
+#include "matrix.hh"
 #include <cmath>
 
 //    BUDOWA PROSTKATA :
@@ -23,7 +23,7 @@ public:
 
     Rectangle(double [4][2]);
 
-    Rectangle operator+ (Vector<double, 2> const);
+    Rectangle operator+ (Vector2 const);
 
     Rectangle AngleTrans(double Angle);
 
